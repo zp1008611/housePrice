@@ -1,0 +1,41 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>广州链家二手房房价分析及预测系统</title>
+        <script src="../static/js/echarts.min.js"></script>
+        <script src="../static/js/jquery-1.11.1.min.js"></script>
+        <script src="../static/js/guangzhou.js"></script>
+        <link rel="stylesheet" type="text/css" href="../static/style.css">
+    </head>
+    <body background="../static/background2.jpg" style=" background-repeat:no-repeat ;background-size:100% 100%;
+        background-attachment: fixed;">
+    <div id="SystemHeader" class="SystemHeader">
+        <div class="Header_content">
+            <a class = "introduction" href="{{ url_for('index') }}">广州链家二手房房价分析及预测系统</a>
+            <ul class="system-choice">
+                    <li><a href="{{ url_for('index') }}">系统说明</a></li>
+                    <li><a class = "current" href="{{ url_for('visual') }}">可视化模块</a></li>
+                    <li>
+                        <a href="{{ url_for('predict') }}">预测模块</a>
+                        <ul class="list1">
+                            <li><a href="{{ url_for('predict') }}">模型一</a></li>
+                            <li><a href="{{ url_for('Model_2') }}">模型二</a></li>
+                            <li><a href="{{ url_for('Model_3') }}">模型三</a></li>
+                        </ul>
+                    </li>
+            </ul>
+        </div>
+    </div>
+    <main>
+        <div id="visualc1">
+            <div id="visualtime"><h1>2021</h1></div>
+        </div>
+        <div id="visualbar"></div>
+        <div id="visualMap"></div>
+        <div id="visualpie"></div>
+        <script src="../static/js/ec_bar.js"></script>
+        <script src="../static/js/ec_map.js"></script>
+        <script src="../static/js/ec_pie.js"></script>
+        <script src="../static/js/controllerVisual.js"></script>
+    </main>
+</html>

@@ -1,0 +1,69 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>广州链家二手房房价分析及预测系统</title>
+        <link rel="stylesheet" type="text/css" href="../static/style.css">
+    </head>
+    <body background="../static/background2.jpg" style=" background-repeat:no-repeat ;background-size:100% 100%;
+        background-attachment: fixed;">
+    <div id="SystemHeader" class="SystemHeader">
+        <div class="Header_content">
+            <a class = "introduction" href="{{ url_for('index') }}">广州链家二手房房价分析及预测系统</a>
+            <ul class="system-choice">
+                    <li><a class = "current" href="{{ url_for('index') }}">系统说明</a></li>
+                    <li><a href="{{ url_for('visual') }}">可视化模块</a></li>
+                    <li>
+                        <a href="{{ url_for('predict') }}">预测模块</a>
+                        <ul class="list1">
+                            <li><a href="{{ url_for('predict') }}">模型一</a></li>
+                            <li><a href="{{ url_for('Model_2') }}">模型二</a></li>
+                            <li><a href="{{ url_for('Model_3') }}">模型三</a></li>
+                        </ul>
+                    </li>
+            </ul>
+        </div>
+    </div>
+    <main>
+        <div class="Top">
+            <div class="Top-container">
+                <div class="main-content">
+                    <div class="main-contentcard">
+                        <h1>系统说明
+                        <a href="{{ url_for('download') }}">（点击此处下载最新总数据集）</a>
+                        </h1>
+                        <h2>(1)数据采集</h2>
+                        <p>
+                            1.爬取网址：https://gz.lianjia.com/ershoufang/<br/>
+                            2.爬取手段：使用Scrapy-Redis框架进行分布式+多进程+多线程爬虫，并将转至Mysql数据库，后使用单独爬虫脚本对每日新增房子的数据进行爬取，更新数据<br/>
+                            3.爬取结果：每次使用总爬取可获得约三万所房子信息，每个房子含约五十个特征<br/>
+                            4.反爬策略与提速优化：模拟不同浏览器标识、构建IP代理池、禁用cookie、合理设置并发数、线程数、爬虫异常状态判断等<br/>
+                        </p>
+                        <h2>(2)特征工程</h2>
+                        <p>
+                            1.特征初步筛选：筛除某些对房价预测无用特征、缺失值较高的特征以及处理困难的特征<br/>
+                            2.各个特征转化为数值型特征：包括数据清洗，特征分割和组合，特征编码，衍生特征等<br/>
+                            3.异常值检测：负值检测，IQR箱型图法，结合现实认知进行检测<br/>
+                            4.缺失值处理：基于现实认知处理，条件均值、众数填充，均值、众数填充（均值针对连续特征、众数针对类别特征）<br/>
+                            5.特征变换：使用box-cox转化对各连续特征进行正态化处理<br/>
+                            6.特征选择：使用斯皮尔曼相关系数法进行特征筛选<br/>
+                            7.特征缩放：使用z-score标准化缩放处理<br/>
+                        </p>
+                        <h2>(3)模型构建</h2>
+                        <p>
+                            评估指标：可决系数R方；调参工具：网格搜索<br/>
+                            1.Stacking:先使用十个常用机器学习算法，不做调参处理进行得分评估，求得五个较强的算法作为第一层基模型，第二层则使用较弱的KernelRidge模型，全部进行调参优化后进行Stacking集成<br/>
+                            2.Boosting:使用XGBoost作为本项目Boosting类算法<br/>
+                            3.Bagging:使用RandomForest作为本项目Bagging类算法<br/>
+                        </p>
+                        <h2>(4)模型部署</h2>
+                        <p>
+                            使用html+css进行静态网页设计，部分模块使用ajax渲染，模型则封装至pkl文件中，后基于Flask框架进行前后端对接部署模型，共包含三个模块：系统介绍模块（首页）、可视化模块、模型预测模块
+                        </p>
+                        </br>
+                        </br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</html>

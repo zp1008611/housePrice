@@ -1,0 +1,106 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>广州链家二手房房价分析及预测系统</title>
+        <script src="../static/js/jquery-1.11.1.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="../static/style.css">
+    </head>
+    <body background="../static/background2.jpg" style=" background-repeat:no-repeat ;background-size:100% 100%;
+        background-attachment: fixed;">
+    <div id="SystemHeader" class="SystemHeader">
+        <div class="Header_content">
+            <a class = "introduction" href="index">广州链家二手房房价分析及预测系统</a>
+            <ul class="system-choice">
+                    <li><a href="{{ url_for('index') }}">系统说明</a></li>
+                    <li><a href="{{ url_for('visual') }}">可视化模块</a></li>
+                    <li>
+                        <a class = "current" href="{{ url_for('predict') }}">预测模块</a>
+                        <ul class="list1">
+                            <li><a href="{{ url_for('predict') }}">模型一</a></li>
+                            <li><a href="{{ url_for('Model_2') }}">模型二</a></li>
+                            <li><a href="{{ url_for('Model_3') }}">模型三</a></li>
+                        </ul>
+                    </li>
+            </ul>
+        </div>
+    </div>
+    <main>
+         <div class="Top">
+            <div class="Top-container">
+                <div class="main-content">
+                    <div class="main-contentcard">
+                        <h1>模型二：Boosting模型（当前R方:{{stack_score}}）</h1>
+                        <form action="{{url_for('model2Predict')}}" method="post">
+                        <div class='box'>
+                            <ul class="txt"></ul>
+                        </div>
+                        <div class="submit">
+                            <button type = "submit">评估房价</button>
+                        </div>
+                        </form>
+                        <div id="result1">{{prediction_display_area}}</div>
+                        </br>
+                        <div id="massage">
+                            <h1>各项特征填写说明：</h1>
+                            <p>注：空值将会根据所填写市辖区自动进行区域均值填充，若无填写市辖区则自动进行广州市均值填充</p>
+                            <h2>广州各市辖区编号</h2>
+                            <p>
+                                （天河：12，越秀：11，海珠：10，荔湾：9，白云：8，番禺：7，黄埔：6，南沙：5，顺德：4，增城：3，花都：2，从化：1）
+                            </p>
+                            <h2>交易类别特征</h2>
+                            <p>
+                                1.小区物业费用：注：假如为类似1.2至100元/平米/月，则取中值替代（单位：元/平米/月）</br>
+                                2.房屋用途：各用途对应于后标数字：（平房：1，普通住宅：2，商住两用：3，商业：4，别墅：5）</br>
+                                3.抵押信息：无抵押则填1，有抵押则填0</br>
+                                4.产权所属：共有则填1，非共有则填0</br>
+                                5.房本备件：可上传房本照片则填1，不可上传房本照片则填0</br>
+                                6.小区均价：所在小区房价均价（单位：元/平米）</br>
+                            </p>
+                            <h2>时间类别特征</h2>
+                            <p>
+                                1.当前时间-挂牌时间：挂牌时间至当前时间所间隔的天数</br>
+                                2.挂牌时间-上次交易时间：上次交易时间至挂牌时间所间隔的天数</br>
+                                3.建楼距今时长：建楼年代至当前年代的年份数</br>
+                                4.小区建成距今时长：小区建成年代至当前年代的年份数</br>
+                            </p>
+                            <h2>建筑类别特征</h2>
+                            <p>
+                                1.建筑面积：指建筑物各层水平面积的总和</br>
+                                2.套内面积：套内房屋使用空间的面积</br>
+                                3.公摊面积：指由整栋楼的产权人共同分摊所有的整栋楼公用部分的建筑面积（公式：建筑面积-套内面积）</br>
+                                4.梯户比例：户数/梯数</br>
+                                5.房屋各室数量（单位均为个）：卧室数量、客厅数量、厨房数量、卫生间数量</br>
+                                6.实际使用面积：各室所占面积之和</br>
+                                7.平均卧室面积：卧室占总面积/卧室个数</br>
+                                8.房屋各室面积占比（室面积/实际使用面积）：客厅、卧室面积占比</br>
+                                9.各室采光等级：按朝向划分：（南：5，东南、西南：4，东、西：3，东北、西北：2，北：1，无：None）</br>
+                                10.户型对应结构：若符合_后的类型，则填1</br>
+                                11.建筑对应类型：若符合_后的类型，则填1</br>
+                                12.所在对应楼层：若符合_后的类型，则填1</br>
+                                13.总层数：房屋所在楼总层数</br>
+                                14.建筑结构：（钢结构：6，钢混结构：5，框架结构：4，混合结构：3，砖混结构：2，砖木结构：1）</br>
+                                15.装修情况：（精装：3，简装：2，毛柸：1）</br>
+                                16.配备电梯：（有电梯：1，无电梯：0）</br>
+                                17.小区楼栋总数：小区楼栋数量</br>
+                                18.小区房屋总数：小区房屋数量</br>
+                                19.有无储物间、入室花园：有则填1，无则填0</br>
+                                20.窗户、落地窗数量：根据房屋窗户与落地窗数量填写</br>
+                            </p>
+                            <h2>周边特征</h2>
+                            <p>
+                                1.教育设施数量：幼儿园+小学+中学+大学数量</br>
+                                2.交通设施数量：地铁站数+公交站数</br>
+                                3.医疗设施数量：医院数+药店数</br>
+                                4.购物设施数量：商场数+超市数+市场数</br>
+                                5.生活设施数量：银行数+ATM数+餐厅数+咖啡馆数</br>
+                                6.娱乐设施数量：公园数+电影院数+健身房数+体育馆数</br>
+                                7.各设施平均距离：与上述数量计算同理，取均值即可</br>
+                            </p>
+                        </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <script src="../static/js/controllerPredict.js"></script>
+    </main>
+</html>
