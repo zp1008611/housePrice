@@ -36,7 +36,7 @@
 （6）每日定时爬虫
         链家二手房网每日会有房源数据更新，为添加这些新数据于数据库中，使用分布式总爬虫效率较低，因此设计针对每日更新数据的新爬虫脚本，基于linux的crontab进行每日定时运行，从而实现每日数据更新。
 
-![image](https://user-images.githubusercontent.com/59312863/149720810-af997d5b-438b-4aef-b9ea-66fa8ddcbab9.png)
+
 
 ## 三、特征工程
 （1）各特征转化为数值型特征	
@@ -87,12 +87,15 @@
 
 （2）模型部署
         使用Flask轻量框架对所设计的html与css进行网站搭建，将各模型打包成pkl文件，于Flask中实现前后端对接，从而实现模型应用。
-        
-![image](https://user-images.githubusercontent.com/59312863/149793590-e9b78660-25a9-4c58-aa58-eaa034f307f7.png)
 
-![image](https://user-images.githubusercontent.com/59312863/149793608-0ebd74dd-bd99-4a13-bf0c-57bdabb1f299.png)
+![image](https://user-images.githubusercontent.com/59312863/149794432-1e53672b-0cf8-45c3-907d-a57b3f43c542.png)
 
-![image](https://user-images.githubusercontent.com/59312863/149793627-33601257-d62b-4fb9-9ee6-84e00bb013b9.png)
+![image](https://user-images.githubusercontent.com/59312863/149794527-0b668455-25fc-4c45-83c5-e61dcf1ad3be.png)
+
+![image](https://user-images.githubusercontent.com/59312863/149794715-c5163375-50f5-4eae-94ea-b46de8c552f6.png)
+
+
+
 
 ## 六、总结
 优点：
