@@ -1,0 +1,41 @@
+================Thu Sep 30 23:42:38 2021=================Traceback (most recent call last):
+  File "e:/desktop/houseprice/crawler/getCommunityData.py", line 194, in get_community_data
+    communityDESC = communityHtml.xpath('//div[@class="xiaoquDescribe fr"]')[0]
+IndexError: list index out of range
+================Thu Sep 30 23:52:05 2021=================Traceback (most recent call last):
+  File "e:/desktop/houseprice/crawler/getCommunityData.py", line 143, in get_dongtai_dic
+    distance = element.find_element_by_class_name('itemdistance').text
+  File "D:\Anaconda3\lib\site-packages\selenium\webdriver\remote\webelement.py", line 398, in find_element_by_class_name
+    return self.find_element(by=By.CLASS_NAME, value=name)
+  File "D:\Anaconda3\lib\site-packages\selenium\webdriver\remote\webelement.py", line 658, in find_element
+    return self._execute(Command.FIND_CHILD_ELEMENT,
+  File "D:\Anaconda3\lib\site-packages\selenium\webdriver\remote\webelement.py", line 633, in _execute
+    return self._parent.execute(command, params)
+  File "D:\Anaconda3\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 321, in execute
+    self.error_handler.check_response(response)
+  File "D:\Anaconda3\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 242, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.WebDriverException: Message: unknown error: session deleted because of page crash
+from unknown error: cannot determine loading status
+from tab crashed
+  (Session info: headless chrome=94.0.4606.54)
+
+https://gz.lianjia.com/xiaoqu/2111103318658/================Thu Sep 30 23:52:05 2021=================Traceback (most recent call last):
+  File "e:/desktop/houseprice/crawler/getCommunityData.py", line 184, in get_community_data
+    res = get_dongtai_dic(url)
+  File "e:/desktop/houseprice/crawler/getCommunityData.py", line 116, in get_dongtai_dic
+    buttom = wd.find_element_by_css_selector('[data-bl={}]'.format(kind))
+  File "D:\Anaconda3\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 598, in find_element_by_css_selector
+    return self.find_element(by=By.CSS_SELECTOR, value=css_selector)
+  File "D:\Anaconda3\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 976, in find_element
+    return self.execute(Command.FIND_ELEMENT, {
+  File "D:\Anaconda3\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 321, in execute
+    self.error_handler.check_response(response)
+  File "D:\Anaconda3\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 242, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.InvalidSessionIdException: Message: invalid session id
+
+================Thu Sep 30 23:53:36 2021=================Traceback (most recent call last):
+  File "e:/desktop/houseprice/crawler/getCommunityData.py", line 194, in get_community_data
+    communityDESC = communityHtml.xpath('//div[@class="xiaoquDescribe fr"]')[0]
+IndexError: list index out of range
