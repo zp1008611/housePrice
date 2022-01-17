@@ -1,0 +1,89 @@
+which python
+mkdir /usr/local/python3 
+cd /usr/local/python3
+
+安装依赖
+yum -y groupinstall "Development tools"
+yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel
+
+安装python3（3.6.2）
+wget https://www.python.org/ftp/python/3.8.5/Python-3.8.5.tar.xz
+
+tar -xvJf  Python-3.8.5.tar.xz
+cd Python-3.8.5
+
+./configure --prefix=/usr/local/python3
+make && make install
+ln -s /usr/local/python3/bin/python3 /usr/bin/python3
+ln -s /usr/local/python3/bin/pip3 /usr/bin/pip3
+python3 -v
+quit()
+
+cd /www/wwwroot/
+mkdir test
+cd test
+pip3 install --upgrade virtualenv
+ln -s /usr/local/python3/bin/virtualenv /usr/bin/virtualenv
+virtualenv -p python3 .env
+
+source .env/bin/activate
+pip3 install flask
+vi app.py
+
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def helloWorld():
+    return "Hello World"
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8787, debug=True)
+deactivate
+pip3 install uwsgi
+ln -s /usr/local/python3/bin/uwsgi /usr/bin/uwsgi
+vi uwsgi.ini
+
+[uwsgi]
+chdir=/www/wwwroot/test
+home=/www/wwwroot/test/.env
+module=test
+callable=app
+master=true
+processes=2
+chmod-socket=666
+logfile-chmod=644
+procname-prefix-spaced=test
+py-autoreload=1
+#http=0.0.0.0:8080
+
+vacuum=true
+socket=%(chdir)/uwsgi/uwsgi.sock
+stats=%(chdir)/uwsgi/uwsgi.status
+pidfile=%(chdir)/uwsgi/uwsgi.pid
+daemonize=%(chdir)/uwsgi/uwsgi.log
+
+mkdir uwsgi
+cd uwsgi
+touch uwsgi.pid
+touch uwsgi.sock
+touch uwsgi.status
+touch uwsgi.log
+cd ..
+uwsgi --ini uwsgi.ini
+
+location / {
+    include uwsgi_params;
+    uwsgi_pass unix:/www/wwwroot/test/uwsgi/uwsgi.sock;
+}
+
+利用宝塔面板把文件上传上去
+cd /www/wwwroot
+cd test
+source .env/bin/activate
+pip freeze > requirements.txt
+pip install -r requirements.txt
+flask forge
+flask run --host 0.0.0.0
+python3 app.py runserver -d -r -h 0.0.0.0 -p 8787
